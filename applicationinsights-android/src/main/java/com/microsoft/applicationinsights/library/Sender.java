@@ -184,6 +184,12 @@ class Sender {
                 InternalLogging.info(TAG, "Persisting because of IOException: ", "We're probably offline =)");
                 this.persistence.makeAvailable(fileToSend); //send again later
             }
+        } catch (SecurityException e) {
+            InternalLogging.warn(TAG, "Couldn't send data with SecurityException: " + e.toString());
+            if (this.persistence != null) {
+                InternalLogging.info(TAG, "Persisting because of SecurityException: ", "We're probably offline =)");
+                this.persistence.makeAvailable(fileToSend); //send again later
+            }
         } finally {
             if (writer != null) {
                 try {
